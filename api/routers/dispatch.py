@@ -21,6 +21,6 @@ def assign_truck(job_id: int, db: Session = Depends(get_db)):
     if not truck:
         raise HTTPException(status_code=400, detail="No available trucks")
     job.assigned_truck_id = truck.id
-    truck.status = "assigned"
+    setattr(truck, "status", "assigned")
     db.commit()
     return {"job_id": job.id, "truck_id": truck.id}
