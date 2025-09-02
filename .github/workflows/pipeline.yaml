@@ -60,6 +60,19 @@ jobs:
       run: |
         curl https://raw.githubusercontent.com/helm/helm/master/scripts/get-helm-3 | bash
 
+    - name: Set up kind
+      uses: helm/kind-action@v1.9.0
+      with:
+        version: v0.20.0
+
+    - name: Load image into kind
+      run: |
+        kind load docker-image myregistry/logistics-api:latest --name chart-testing
+
     - name: Deploy via Helm
       run: |
         helm upgrade --install logistics-api ./charts/logistics-api -f ./charts/logistics-api/values.yaml
+        
+    - name: Verify Deployment
+      run: |
+        kubectl get pods -n default
