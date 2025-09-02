@@ -59,9 +59,13 @@ jobs:
     - name: Set up kind
       uses: helm/kind-action@v1
 
+    - name: Build Docker image
+      run: |
+        docker build -t logistics-api:latest .
+
     - name: Load image into kind
       run: |
-        kind load docker-image zacharyeck/logistics-logistics-api:latest --name chart-testing
+        kind load docker-image logistics-api:latest --name chart-testing
 
     - name: Deploy via Helm
       run: |
